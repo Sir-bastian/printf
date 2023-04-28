@@ -4,9 +4,6 @@
 #include<unistd.h>
 #include<fcntl.h>
 #include <stdarg.h>
-
-
-
 /**
 *_printf - function to print just like printf
 *@format: fixed string parameter for the function
@@ -14,10 +11,14 @@
 */
 int _printf(const char *format, ...)
 {
-    va_list args;
-    va_start(args, format);
 
-    int i = 0;
+	char *t;
+	void *y;
+	int x, i = 0;
+	char ans;
+    	va_list args;
+    	va_start(args, format);
+
     while (format[i])
     {
         if (format[i] == '%')
@@ -27,53 +28,45 @@ int _printf(const char *format, ...)
             {
                 case 'd':
                 {
-                    int x = va_arg(args, int);
-                    char ans = '0' + x;
+                    x = va_arg(args, int);
+                    ans = '0' + x;
                     putchar(ans);
-                    //write(1,ans,sizeof(int));
-                    //close(x);
                     break;
                 }
                 case 'f':
                 {
-                    double x = va_arg(args, double);
+                    x = va_arg(args, double);
                     putDouble(x,5);
                     break;
                 }
                 case 'c':
                 {
-                    int x = va_arg(args, int);
+                    x = va_arg(args, int);
                     write(1, &x, 1);
-                    fflush(stdout);
                     break;
                 }
                 case 's':
                 {
-                    char *x = va_arg(args, char*);
-                    //printf("%s", x);
-                    write(1, x, strlen(x));
+                    t = va_arg(args, char*);
+                    write(1, t, strlen(t));
                     break;
                 }
                 case 'x':
                 case 'X':
                 {
-                    int x = va_arg(args, int);
+                    x = va_arg(args, int);
                     putchar(x);
-                    //write(1,&x,sizeof(int));
-                    //close(x);
                     break;
                 }
                 case 'p':
                 {
-                    void *x = va_arg(args, void*);
-                    //printf("%p", x);
-                    write(1,x,strlen(x));
+                    y = va_arg(args, void*);
+                    write(1,y,strlen(y));
                     break;
                 }
                 case '%':
                     putchar('%');
-                    //int r = write(1,"&%",sizeof(char));
-                    //close(r);
+                    write(1,"&%",sizeof(char));
                     break;
                 default:
                     putchar(format[i]);
